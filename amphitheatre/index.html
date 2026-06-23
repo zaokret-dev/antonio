@@ -1,1 +1,270 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amphitheatre – Excursion Antonio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+    --blue: #0C71C3;
+    --lightblue: #0099e5;
+    --dark: #263954;
+    --white: #ffffff;
+    --bg-light: #f7f7f7;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    height: 56px;
+  }
+  .nav-logo {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;
+    white-space: nowrap;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .nav-links a:hover { color: #0099e5; }
+  .nav-links .btn-book {
+    background: #0099e5;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+  .nav-links .btn-book:hover { background: #007bbf; color: #fff; }
+  .nav-hamburger { display: none; }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: rgba(0,0,0,0.95); padding: 20px; gap: 16px; }
+    .nav-links.open { display: flex; }
+    .nav-hamburger { display: block; background: none; border: none; color: #fff; font-size: 26px; cursor: pointer; }
+  }
+
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { overflow-x: hidden; width: 100%; }
+  body { font-family: 'Open Sans', sans-serif; font-size: 15px; line-height: 1.8; color: #333; background: #fff; }
+
+  /* HERO */
+  .hero { padding-top: 56px; position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0; }
+  .hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 1; }
+  .hero-inner { position: relative; z-index: 2; padding: 40px 20px; max-width: 800px; }
+  .hero h2 { font-family: 'Nunito', sans-serif; font-size: 52px; color: #fff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+
+  /* SECTION */
+  .section { padding: 80px 20px; max-width: 900px; margin: 0 auto; }
+  .page-title { text-align: center; font-family: 'Nunito', sans-serif; font-size: 36px; color: #263954; margin-bottom: 40px; letter-spacing: 1px; }
+  .body-text p { text-align: justify; margin-bottom: 1.4em; color: #444; font-size: 15px; line-height: 1.8; }
+
+  /* SLIDER */
+  .slider-section { position: relative; overflow: hidden; width: 100%; height: 610px; background: #111; }
+  @media (max-width: 768px) { .slider-section { height: 335px; } }
+  @media (max-width: 480px) { .slider-section { height: 220px; } }
+  .slides { display: flex; height: 100%; transition: transform 0.6s ease; }
+  
+  
+
+  .slide { position: relative; min-width: 100%; height: 100%; flex-shrink: 0; overflow: hidden; }
+  .slide-bg { position: absolute; inset: -20px; background-size: cover; background-position: center; filter: blur(18px) brightness(0.5) saturate(0.7); transform: scale(1.05); z-index: 0; }
+  .slide img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; object-position: center; display: block; }
+  .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.45); color: #fff; border: none; cursor: pointer; font-size: 22px; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; transition: background 0.2s; }
+  .slider-btn:hover { background: rgba(0,153,229,0.85); }
+  .slider-btn.prev { left: 16px; }
+  .slider-btn.next { right: 16px; }
+  .slider-dots { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; border: none; padding: 0; transition: background 0.2s; }
+  .dot.active { background: #0099e5; }
+
+  /* FOOTER CTA */
+  .footer-cta { position: relative; min-height: 600px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+  .footer-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center right; z-index: 0; }
+  @media (max-width: 768px) { .footer-bg { object-position: center; } }
+  .footer-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 1; }
+  .footer-cta-inner { position: relative; z-index: 2; padding: 40px 20px; max-width: 80%; }
+  .footer-cta h2 { font-family: 'Nunito', sans-serif; font-size: 50px; color: #fff; margin-bottom: 30px; line-height: 1.1; text-transform: uppercase; letter-spacing: 1px; }
+  .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 14px 32px; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 2px; text-decoration: none; text-transform: uppercase; border: 12px solid; border-radius: 0; transition: opacity 0.2s; }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { color: #fff; background: #0099e5; border-color: #0099e5; }
+  .btn-secondary { color: #0099e5; background: #fff; border-color: #fff; }
+
+  @media (max-width: 480px) {
+    .hero h2 { font-size: 32px; }
+    .footer-cta h2 { font-size: 32px; }
+    .footer-cta-inner { max-width: 95%; }
+    .page-title { font-size: 26px; }
+    .section { padding: 50px 16px; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Excursion Antonio</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About Us</a></li>
+    <li><a href="tours.html">Tours</a></li>
+    <li><a href="boat.html">Boat</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="amphitheatre.html">Amphitheatre</a></li>
+    <li><a href="dolphins.html">Dolphins</a></li>
+    <li><a href="book-now.html" class="btn btn-lightblue" style="padding:8px 20px;font-size:12px;">Book Now</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="toggleMenu()">&#9776;</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-bg" src="images/pula-roman-arena-amphitheatre-1213219.jpg" alt="Pula Amphitheatre">
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <h2>Amphitheatre</h2>
+  </div>
+</section>
+
+<!-- INTRO TEXT -->
+<div class="section">
+  <h1 class="page-title">AMPHITHEATRE</h1>
+  <div class="body-text">
+    <p>The amphitheater in Pula is the largest and best-preserved monument of ancient architecture in Croatia. Comparing it with more than 200 Roman amphitheatres, the mantle of the Pula amphitheater with four stair towers is the best preserved and rare example of unique technical and technological solutions. In terms of size, it ranks 6th among Roman amphitheatres in the world, and is the only one in the world whose three Roman architectural orders have been completely preserved. The Pula amphitheater is placed alongside the Colosseum in Rome, the Arena in Verona, the amphitheatres in Pompeii, Nimes and Arles in France and El Djem in Tunisia. It is surprising that the Arena, as an indisputable cultural treasure of Croatia and the world, is not yet on the UNESCO World Heritage List. Croatia nominated Arena twice for Lista, and then withdrew its candidacy.</p>
+    <p>It is elliptical in shape, with a main axis 130 meters long and a shorter axis 100 meters long. In the middle is a flat area — the arena, and the spectators sat on the stone steps or stood in the gallery. It is believed that the Arena could accommodate 20,000 spectators. It was built from local limestone. In the Middle Ages, the Arena was used for knightly tournaments and fairs. Today it is used for summer events — Film Festival, Opera Season, Equestrian Festival, concerts — when it can accommodate around 5,000 spectators.</p>
+  </div>
+</div>
+
+<!-- SLIDER -->
+<div class="slider-section">
+  <div class="slides" id="slides">
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('images/8.jpg')"></div>
+      <img src="images/8.jpg" alt="Amphitheatre">
+    </div>
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('images/pula-roman-arena-amphitheatre-1213219.jpg')"></div>
+      <img src="images/pula-roman-arena-amphitheatre-1213219.jpg" alt="Amphitheatre">
+    </div>
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('images/1-scaled.jpg')"></div>
+      <img src="images/1-scaled.jpg" alt="Amphitheatre">
+    </div>
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('images/Amphitheatre.jpg')"></div>
+      <img src="images/Amphitheatre.jpg" alt="Amphitheatre">
+    </div>
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('images/007.jpg')"></div>
+      <img src="images/007.jpg" alt="Amphitheatre">
+    </div>
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('images/1683620798550.jpg')"></div>
+      <img src="images/1683620798550.jpg" alt="Amphitheatre">
+    </div>
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('images/006.jpg')"></div>
+      <img src="images/006.jpg" alt="Amphitheatre">
+    </div>
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('images/005.jpg')"></div>
+      <img src="images/005.jpg" alt="Amphitheatre">
+    </div>
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('images/10.jpg')"></div>
+      <img src="images/10.jpg" alt="Amphitheatre">
+    </div>
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('images/7.jpg')"></div>
+      <img src="images/7.jpg" alt="Amphitheatre">
+    </div>
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('images/pula-1229338.jpg')"></div>
+      <img src="images/pula-1229338.jpg" alt="Amphitheatre">
+    </div>
+  </div>
+  <button class="slider-btn prev" onclick="moveSlide(-1)" aria-label="Previous">&#8249;</button>
+  <button class="slider-btn next" onclick="moveSlide(1)" aria-label="Next">&#8250;</button>
+  <div class="slider-dots" id="dots"></div>
+</div>
+
+<!-- MORE TEXT -->
+<div class="section">
+  <div class="body-text">
+    <p>During the summer, gladiatorial fights are held every week in the Arena as part of the ancient historical-entertainment spectacle "Spectacvla Antiqva".</p>
+    <p>In the underground room, which previously served gladiators, today a permanent exhibition "Olive and Viticulture of Istria in Antiquity" is set up, enriched with reconstructions of machines for the production of oil and wine (mills, presses, sedimentation vessels), and amphorae that served as packaging for transportation of oil and wine.</p>
+    <p>The arena is located outside the city walls of old Pula due to its size and geographical convenience, and the road established in the Vespasian era leads us to the city itself, after which it was named — Via Flavia, which is still one of the city's main thoroughfares.</p>
+  </div>
+</div>
+
+<!-- FOOTER CTA -->
+<section class="footer-cta">
+  <img class="footer-bg" src="images/aRENABROD-I-MESEC.png" alt="Arena at night">
+  <div class="footer-overlay"></div>
+  <div class="footer-cta-inner">
+    <h2>Magnificent Colosseum</h2>
+    <div class="cta-buttons">
+      <a href="gallery.html" class="btn btn-primary">Gallery</a>
+      <a href="book-now.html" class="btn btn-secondary">Book Now</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const slides = document.getElementById('slides');
+  const dotsContainer = document.getElementById('dots');
+  const total = slides.children.length;
+  let current = 0, timer;
+
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Slide ' + (i + 1));
+    d.onclick = () => { goTo(i); resetTimer(); };
+    dotsContainer.appendChild(d);
+  }
+
+  function goTo(n) {
+    current = (n + total) % total;
+    slides.style.transform = `translateX(-${current * 100}%)`;
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+  function moveSlide(dir) { goTo(current + dir); resetTimer(); }
+  function resetTimer() { clearInterval(timer); timer = setInterval(() => goTo(current + 1), 5000); }
+  resetTimer();
+
+  function toggleMenu() {
+    document.querySelector('.nav-links').classList.toggle('open');
+  }
+</script>
+</body>
+</html>
+
