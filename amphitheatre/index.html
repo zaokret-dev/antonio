@@ -64,8 +64,13 @@
   .nav-links .btn-book:hover { background: #007bbf; color: #fff; }
   .nav-hamburger { display: none; }
 
+  @media (max-width: 1000px) {
+    nav { flex-wrap: wrap; padding: 0 20px; height: auto; min-height: 56px; }
+    .nav-links { gap: 14px; }
+    .nav-links a { font-size: 11px; letter-spacing: 1px; }
+  }
+
   @media (max-width: 768px) {
-    .nav-links { display: none; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: rgba(0,0,0,0.95); padding: 20px; gap: 16px; }
     .nav-links.open { display: flex; }
     .nav-hamburger { display: block; background: none; border: none; color: #fff; font-size: 26px; cursor: pointer; }
   }
