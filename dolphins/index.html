@@ -1,1 +1,270 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dolphins – Excursion Antonio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+    --blue: #0C71C3;
+    --lightblue: #0099e5;
+    --dark: #263954;
+    --white: #ffffff;
+    --bg-light: #f7f7f7;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    height: 56px;
+  }
+  .nav-logo {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;
+    white-space: nowrap;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .nav-links a:hover { color: #0099e5; }
+  .nav-links .btn-book {
+    background: #0099e5;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+  .nav-links .btn-book:hover { background: #007bbf; color: #fff; }
+  .nav-hamburger { display: none; }
+
+  @media (max-width: 1000px) {
+    nav { flex-wrap: wrap; padding: 0 20px; height: auto; min-height: 56px; }
+    .nav-links { gap: 14px; }
+    .nav-links a { font-size: 11px; letter-spacing: 1px; }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: rgba(0,0,0,0.95); padding: 20px; gap: 16px; }
+    .nav-links.open { display: flex; }
+    .nav-hamburger { display: block; background: none; border: none; color: #fff; font-size: 26px; cursor: pointer; }
+  }
+
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { overflow-x: hidden; width: 100%; }
+  body { font-family: 'Open Sans', sans-serif; font-size: 15px; line-height: 1.8; color: #333; background: #fff; }
+
+  /* HERO */
+  .hero { padding-top: 56px; position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0; }
+  .hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 1; }
+  .hero-inner { position: relative; z-index: 2; padding: 40px 20px; max-width: 800px; }
+  .hero h2 { font-family: 'Nunito', sans-serif; font-size: 52px; color: #fff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+
+  /* SECTION */
+  .section { padding: 80px 20px; max-width: 900px; margin: 0 auto; }
+  .page-title { text-align: center; font-family: 'Nunito', sans-serif; font-size: 36px; color: #263954; margin-bottom: 40px; letter-spacing: 1px; }
+  .body-text p { text-align: justify; margin-bottom: 1.4em; color: #444; font-size: 15px; line-height: 1.8; }
+
+  /* FACTS LIST */
+  .facts-title { text-align: center; font-size: 21px; color: #263954; font-family: 'Nunito', sans-serif; margin-bottom: 30px; }
+  .facts-list { list-style: none; padding: 0; margin: 0; }
+  .facts-list li { text-align: justify; margin-bottom: 1.1em; color: #444; font-size: 15px; line-height: 1.8; padding-left: 22px; position: relative; }
+  .facts-list li::before { content: '•'; position: absolute; left: 0; color: #0099e5; font-weight: 700; font-size: 18px; }
+
+  /* SLIDER */
+  .slider-section { position: relative; overflow: hidden; width: 100%; height: 610px; background: #111; }
+  @media (max-width: 768px) { .slider-section { height: 335px; } }
+  @media (max-width: 480px) { .slider-section { height: 220px; } }
+
+  .slides { display: flex; width: 100%; height: 100%; transition: transform 0.6s ease; }
+  .slide { position: relative; min-width: 100%; height: 100%; flex-shrink: 0; overflow: hidden; }
+  .slide-bg { position: absolute; inset: -20px; background-size: cover; background-position: center; filter: blur(18px) brightness(0.5) saturate(0.7); transform: scale(1.05); z-index: 0; }
+  .slide img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; object-position: center; display: block; }
+  .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.45); color: #fff; border: none; cursor: pointer; font-size: 22px; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; transition: background 0.2s; }
+  .slider-btn:hover { background: rgba(0,153,229,0.85); }
+  .slider-btn.prev { left: 16px; }
+  .slider-btn.next { right: 16px; }
+  .slider-dots { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; border: none; padding: 0; transition: background 0.2s; }
+  .dot.active { background: #0099e5; }
+
+  /* FOOTER CTA */
+  .footer-cta { position: relative; min-height: 600px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+  .footer-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0; }
+  .footer-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 1; }
+  .footer-cta-inner { position: relative; z-index: 2; padding: 40px 20px; max-width: 80%; }
+  .footer-cta h2 { font-family: 'Nunito', sans-serif; font-size: 50px; color: #fff; margin-bottom: 30px; line-height: 1.1; text-transform: uppercase; letter-spacing: 1px; }
+  .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 14px 32px; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 2px; text-decoration: none; text-transform: uppercase; border: 2px solid; border-radius: 0; transition: opacity 0.2s; }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { color: #fff; background: #0099e5; border-color: #0099e5; }
+  .btn-secondary { color: #0099e5; background: #fff; border-color: #fff; }
+
+  @media (max-width: 480px) {
+    .hero h2 { font-size: 32px; }
+    .footer-cta h2 { font-size: 32px; }
+    .footer-cta-inner { max-width: 95%; }
+    .page-title { font-size: 26px; }
+    .section { padding: 50px 16px; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="../index.html" class="nav-logo">Excursion Antonio</a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../index.html#about">About Us</a></li>
+    <li><a href="../tours.html">Tours</a></li>
+    <li><a href="../boat.html">Boat</a></li>
+    <li><a href="../blog.html">Blog</a></li>
+    <li><a href="../gallery.html">Gallery</a></li>
+    <li><a href="../amphitheatre/">Amphitheatre</a></li>
+    <li><a href="./">Dolphins</a></li>
+    <li><a href="../book-now.html" class="btn-book" style="padding:8px 20px;font-size:12px;">Book Now</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="toggleMenu()">&#9776;</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-bg" src="GLAVA-DELFINA.png" alt="Dolphin">
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <h2>Dolphins</h2>
+  </div>
+</section>
+
+<!-- INTRO TEXT -->
+<div class="section">
+  <h1 class="page-title">DOLPHINS</h1>
+  <div class="body-text">
+    <p>Did you know that there are about 40 different species of dolphins in the world? Most species live in shallow waters of tropical and moderately warm seas, and five species find their refuge and home in rivers. Dolphins are extremely social creatures. They live in large groups of up to a thousand members with whom they hunt and play. They are often found in the company of other mammals, so even gray whales like to hang out with dolphins. According to the WDC (Whale and Dolphin Conservation), these two species of mammals communicate through sounds, physical contact and the use of body language. If only we had a translator who could tell us what they were talking about... Dolphins are carnivores. They usually eat fish, squid and crabs, and a dolphin that weighs about 115 kilograms eats about 15 kilograms of fish a day. Such an enormous need for food is easy to satisfy because they are more intelligent than even monkeys, and their brains are incredibly similar to human ones. It was even discovered that some dolphins "scan" the seabed with sponges in search of food. Significant differences were observed in the fatty acids of dolphins that hunt in this way compared to dolphins that do not hunt in this way. Dolphins separate the sponge from the bottom, pull it over their snout like a glove, and thus protect it and cover a much larger surface of the bottom. It has also been observed that dolphins pass on the skill of using tools to their offspring. Depending on the species, pregnancy lasts nine to 17 months. After giving birth, dolphins are surprisingly good mothers. They observed them "nesting" and caressing their young. The young suckle until they are two years old, and stay with their mothers from three to eight years.</p>
+
+    <p>Good dolphins call each other by their names. Of course, these are not names like Marija and Marko, but they have developed special whistling techniques and for each individual in their group they have a different whistle that can be heard up to 20 kilometers away. Dolphins have equally good vision in and out of the water, their sense of touch is also developed, and they can hear frequencies up to ten times higher than the human ear. But that's why they can never smell the enticing smell of bacon because their sense of smell is underdeveloped.</p>
+
+    <p>Dolphins consider humans unfit for life! Okay, maybe that's not quite the case, but one explanation really goes like that. Namely, dolphins often bring people gifts in the form of their catch, as cats sometimes do. However, such behavior in the wild is extremely rare and difficult to explain, but some believe that dolphins consider humans incapable of hunting and thus help them survive. As the dolphins brought such gifts mostly to places where people had fed them for a while, it could be a form of thanks or reciprocation, while a third opinion believes that it is a game. Dolphins have almost no natural enemies. Their biggest enemies are humans in cooperation with pollution and hunting.</p>
+
+    <p>Since dolphins are mammals, they have to surface every now and then to breathe. However, unlike land mammals, they do not breathe through their mouths. Dolphins use their mouths only for feeding, and they breathe through special openings on their heads. In this way, evolution prevented the entry of water into the lungs during hunting and thus reduced the risk of drowning. Unfortunately, despite this evolutionary adaptation, many dolphins still drown due to human fault because they are entangled in fishing nets and thus unable to surface and breathe.</p>
+  </div>
+</div>
+
+<!-- SLIDER -->
+<div class="slider-section">
+  <div class="slides" id="slides">
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('1.jpg')"></div>
+      <img src="1.jpg" alt="Dolphins">
+    </div>
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('2-1.jpg')"></div>
+      <img src="2-1.jpg" alt="Dolphins">
+    </div>
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('3.1.png')"></div>
+      <img src="3.1.png" alt="Dolphins">
+    </div>
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('4.jpg')"></div>
+      <img src="4.jpg" alt="Dolphins">
+    </div>
+    <div class="slide">
+      <div class="slide-bg" style="background-image:url('5.jpg')"></div>
+      <img src="5.jpg" alt="Dolphins">
+    </div>
+  </div>
+  <button class="slider-btn prev" onclick="moveSlide(-1)" aria-label="Previous">&#8249;</button>
+  <button class="slider-btn next" onclick="moveSlide(1)" aria-label="Next">&#8250;</button>
+  <div class="slider-dots" id="dots"></div>
+</div>
+
+<!-- INTERESTING FACTS -->
+<div class="section">
+  <h2 class="facts-title">Interesting Facts About Dolphins</h2>
+  <ul class="facts-list">
+    <li>Dolphins do not drink water. They satisfy their need for water by using water from food. Since the skin of dolphins is impermeable to water, the amount of water they need is not great.</li>
+    <li>Dolphins have a flexible eye lens, so their vision is just as good under the sea as it is above the sea. Under the sea, they are also used with echolocation (they have a locator that allows them to orient themselves in space).</li>
+    <li>Dolphins spend most of their time underwater while hunting; about 3-4 minutes. However, if they are in danger, dolphins can spend 6-7 minutes underwater.</li>
+    <li>Depending on the area they live in, dolphins can dive up to 300 m. However, their average dive is between 30 and 70 meters.</li>
+    <li>Dolphins can live over 50 years, and females live a little longer on average. The average age they experience in nature is about 40 years.</li>
+    <li>Dolphins seem to always be smiling. However, dolphins cannot change the appearance of their mouths. They look the same when dolphins are happy and when they are angry!</li>
+    <li>Dolphins do not suck milk, but the mother squeezes it from her mammary glands into the cub's mouth by muscle contraction. In order for the milk not to mix with the sea, it must be very thick and fatty. Dolphin milk contains about 14% milk fat, which is 4 times more than there is milk fat in cow or human milk.</li>
+    <li>Dolphins never sleep. One half of their brain is always awake, and after two hours of activity it switches to the other half.</li>
+    <li>The brain of a dolphin is more advanced than the brain of a chimpanzee, and these are creatures whose morality is on a human level.</li>
+    <li>Scientists claim that dolphins can recognize themselves in a mirror and study their own movements and perform them consciously while watching themselves in the mirror.</li>
+    <li>They can learn to "type" on a keyboard underwater to request toys they want to play with.</li>
+    <li>Dolphins communicate. Experts around the world are working to decipher the language of dolphins, which almost never stop vocalizing.</li>
+    <li>Dolphins face numerous threats, mostly from humans. Namely, dolphins in the Adriatic have almost no natural enemies; only larger sharks could attack them, but there are almost none of them in the Adriatic.</li>
+  </ul>
+</div>
+
+<!-- FOOTER CTA -->
+<section class="footer-cta">
+  <img class="footer-bg" src="sunset-ge7c5b72b5_1280.jpg" alt="Sunset over the sea">
+  <div class="footer-overlay"></div>
+  <div class="footer-cta-inner">
+    <h2>Searching For Dolphins.</h2>
+    <div class="cta-buttons">
+      <a href="../gallery.html" class="btn btn-primary">Gallery</a>
+      <a href="../book-now.html" class="btn btn-secondary">Book Now</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const slides = document.getElementById('slides');
+  const dotsContainer = document.getElementById('dots');
+  const total = slides.children.length;
+  let current = 0, timer;
+
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Slide ' + (i + 1));
+    d.onclick = () => { goTo(i); resetTimer(); };
+    dotsContainer.appendChild(d);
+  }
+
+  function goTo(n) {
+    current = (n + total) % total;
+    slides.style.transform = `translateX(-${current * 100}%)`;
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+  function moveSlide(dir) { goTo(current + dir); resetTimer(); }
+  function resetTimer() { clearInterval(timer); timer = setInterval(() => goTo(current + 1), 5000); }
+  resetTimer();
+
+  function toggleMenu() {
+    document.querySelector('.nav-links').classList.toggle('open');
+  }
+</script>
+</body>
+</html>
