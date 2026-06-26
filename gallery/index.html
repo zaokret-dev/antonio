@@ -1,1 +1,284 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery – Excursion Antonio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #0C71C3;
+    --lightblue: #0099e5;
+    --dark: #263954;
+    --white: #ffffff;
+    --bg-light: #f7f7f7;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { overflow-x: hidden; width: 100%; }
+  body { font-family: 'Open Sans', sans-serif; font-size: 15px; line-height: 1.7; color: #333; background: #fff; }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    height: 56px;
+  }
+  .nav-logo { color: #fff; text-decoration: none; font-weight: 700; font-size: 16px; white-space: nowrap; }
+  .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; margin: 0; padding: 0; }
+  .nav-links a { color: #fff; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
+  .nav-links a:hover { color: #0099e5; }
+  .nav-links .btn-book { background: #0099e5; color: #fff; padding: 8px 18px; border-radius: 3px; font-weight: 700; }
+  .nav-links .btn-book:hover { background: #007bbf; color: #fff; }
+  .nav-hamburger { display: none; background: none; border: none; color: #fff; font-size: 26px; cursor: pointer; }
+
+  @media (max-width: 1000px) {
+    nav { flex-wrap: wrap; padding: 0 20px; height: auto; min-height: 56px; }
+    .nav-links { gap: 14px; }
+    .nav-links a { font-size: 11px; letter-spacing: 1px; }
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-hamburger { display: block; }
+    nav { position: fixed; flex-wrap: nowrap; }
+  }
+  nav.nav-mobile-open .nav-links {
+    display: flex !important;
+    flex-direction: column;
+    position: absolute;
+    top: 56px; left: 0; right: 0;
+    background: rgba(0,0,0,0.95);
+    padding: 20px 32px;
+    gap: 16px;
+    z-index: 999;
+  }
+
+  /* HERO */
+  .hero { padding-top: 56px; position: relative; min-height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0; }
+  .hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 1; }
+  .hero-inner { position: relative; z-index: 2; padding: 40px 20px; max-width: 800px; }
+  .hero h1 { font-family: 'Nunito', sans-serif; font-size: 52px; color: #fff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+  .hero p { color: rgba(255,255,255,0.9); font-size: 17px; }
+
+  /* GALLERY GRID */
+  .gallery-section { padding: 60px 20px 90px; max-width: 1300px; margin: 0 auto; }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    background: #eee;
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+  }
+  .gallery-item:hover img { transform: scale(1.08); }
+
+  @media (max-width: 900px) {
+    .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .gallery-section { padding: 40px 16px 60px; }
+    .hero h1 { font-size: 32px; }
+  }
+
+  /* LIGHTBOX */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 20px; right: 24px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 36px;
+    cursor: pointer;
+    line-height: 1;
+    z-index: 2001;
+  }
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #fff;
+    font-size: 26px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2001;
+  }
+  .lightbox-nav:hover { background: rgba(0,153,229,0.85); }
+  .lightbox-nav.prev { left: 16px; }
+  .lightbox-nav.next { right: 16px; }
+
+  /* FOOTER */
+  footer { background: var(--dark); color: rgba(255,255,255,0.7); text-align: center; padding: 30px 20px; font-size: 14px; }
+  footer a { color: var(--lightblue); text-decoration: none; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Excursion Antonio</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About Us</a></li>
+    <li><a href="tours.html">Tours</a></li>
+    <li><a href="boat.html">Boat</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="./">Gallery</a></li>
+    <li><a href="amphitheatre/">Amphitheatre</a></li>
+    <li><a href="dolphins/">Dolphins</a></li>
+    <li><a href="book-now.html" class="btn-book" style="padding:8px 20px;font-size:12px;">Book Now</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleMenu()">&#9776;</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-bg" src="sunset-at-sea-brijuni-islands-istria-croatia.jpg" alt="Gallery">
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <h1>Gallery</h1>
+    <p>Moments from our excursions around Pula and the Brijuni Islands</p>
+  </div>
+</section>
+
+<!-- GALLERY GRID -->
+<section class="gallery-section">
+  <div class="gallery-grid" id="galleryGrid">
+    <div class="gallery-item" onclick="openLightbox(0)"><img src="sunset-at-sea-brijuni-islands-istria-croatia.jpg" alt="Sunset at sea, Brijuni Islands" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(1)"><img src="travel-landscape-pula-boat-excursions-brijuni-islands.jpg" alt="Boat excursion landscape near Brijuni Islands" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(2)"><img src="dolphins-sunset-tour-brijuni-islands.jpg" alt="Dolphins sunset tour, Brijuni Islands" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(3)"><img src="travel-landscape-pula-boat-excursions.jpg" alt="Boat excursion landscape near Pula" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(4)"><img src="boat-trip-pula-dolphins.jpg" alt="Boat trip with dolphins near Pula" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(5)"><img src="boat-trip-pula.jpg" alt="Boat trip near Pula" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(6)"><img src="sunset-dolphin-tour-brijuni-islands.jpg" alt="Sunset dolphin tour, Brijuni Islands" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(7)"><img src="sunset-tour-brijuni.jpg" alt="Sunset tour near Brijuni" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(8)"><img src="sunset-tour-brijuni-islands.png" alt="Sunset tour, Brijuni Islands" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(9)"><img src="boat-tour-brijuni.jpg" alt="Boat tour near Brijuni" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(10)"><img src="boat-trip-pula-dolphin-jumps.jpg" alt="Dolphin jumps during boat trip near Pula" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(11)"><img src="boat-tours-pula-dolphins-watching.jpg" alt="Dolphin watching on boat tours, Pula" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(12)"><img src="sunset-dolphins-play.jpg" alt="Dolphins playing at sunset" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(13)"><img src="sunset-dolphins-jump.jpg" alt="Dolphins jumping at sunset" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(14)"><img src="sunset-dolphin-play.jpg" alt="Dolphin playing at sunset" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(15)"><img src="daytime-boat-excursion-dolphins-play.jpg" alt="Dolphins playing during daytime boat excursion" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(16)"><img src="dolpin-tour-pula.jpg" alt="Dolphin tour, Pula" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(17)"><img src="boat-excursions-pula-dolphins-watching.jpg" alt="Dolphin watching boat excursions, Pula" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(18)"><img src="brijuni-boat-excursions-1.jpg" alt="Brijuni boat excursions" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(19)"><img src="pula-boat-excursions-visit-stunning-brijuni-islands.jpg" alt="Pula boat excursions visiting Brijuni Islands" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(20)"><img src="boat-excursions-pula-visit-stunning-brijuni-islands.jpg" alt="Boat excursions from Pula to Brijuni Islands" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(21)"><img src="brijuni-islands-boat-excursions.png" alt="Brijuni Islands boat excursions" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(22)"><img src="boat-excursions-pula-istria-visit-stunning-brijuni-islands.jpg" alt="Boat excursions, Pula Istria, Brijuni Islands" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(23)"><img src="brijuni-boat-excursions-pula.png" alt="Brijuni boat excursions from Pula" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(24)"><img src="pula-boat-excursions-visit-brijuni-islands-in-daytime.jpg" alt="Daytime boat excursions to Brijuni Islands" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(25)"><img src="pula-boat-excursions-visit-brijuni-islands-daytime.jpg" alt="Daytime boat excursions to Brijuni Islands" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(26)"><img src="pula-boat-excursions-visit-brijuni-islands-today.jpg" alt="Boat excursions to Brijuni Islands today" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(27)"><img src="pula-boat-excursions-visit-brijuni.jpg" alt="Pula boat excursions to Brijuni" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(28)"><img src="boat-excursions-pula-visit-brijuni-islands.jpg" alt="Boat excursions from Pula to Brijuni Islands" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(29)"><img src="pula-boat-excursions-visit-brijuni-islands.jpg" alt="Pula boat excursions to Brijuni Islands" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(30)"><img src="sunset-dolphins.jpg" alt="Dolphins at sunset" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(31)"><img src="boat-excursions-visit-brijuni.jpg" alt="Boat excursions visiting Brijuni" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(32)"><img src="boat-excursions-visit-brijuni-islands.jpg" alt="Boat excursions visiting Brijuni Islands" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(33)"><img src="boat-excursions-pula-visit-brijuni.jpg" alt="Boat excursions from Pula to Brijuni" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(34)"><img src="pula-at-night-stunning-boat-tour.jpg" alt="Pula at night, boat tour" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(35)"><img src="pula-boat-tours.jpg" alt="Pula boat tours" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(36)"><img src="pula-at-night-boat-tour.jpg" alt="Pula at night boat tour" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(37)"><img src="pula-above.jpg" alt="Pula from above" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(38)"><img src="boat-excursions-pula-starting-place.jpg" alt="Boat excursions starting place, Pula" loading="lazy"></div>
+    <div class="gallery-item" onclick="openLightbox(39)"><img src="boat-tours-pula.png" alt="Boat tours, Pula" loading="lazy"></div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <button class="lightbox-nav prev" onclick="navLightbox(-1)" aria-label="Previous">&#8249;</button>
+  <img id="lightboxImg" src="" alt="">
+  <button class="lightbox-nav next" onclick="navLightbox(1)" aria-label="Next">&#8250;</button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2023 Excursion Antonio. All rights reserved. | Pula, Istria, Croatia</p>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.querySelector('nav').classList.toggle('nav-mobile-open');
+  }
+
+  const galleryImgs = Array.from(document.querySelectorAll('#galleryGrid img')).map(img => ({ src: img.getAttribute('src'), alt: img.getAttribute('alt') }));
+  let currentLightbox = 0;
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+
+  function openLightbox(index) {
+    currentLightbox = index;
+    updateLightbox();
+    lightbox.classList.add('open');
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+  }
+  function navLightbox(dir) {
+    currentLightbox = (currentLightbox + dir + galleryImgs.length) % galleryImgs.length;
+    updateLightbox();
+  }
+  function updateLightbox() {
+    const item = galleryImgs[currentLightbox];
+    lightboxImg.src = item.src;
+    lightboxImg.alt = item.alt;
+  }
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navLightbox(-1);
+    if (e.key === 'ArrowRight') navLightbox(1);
+  });
+</script>
+</body>
+</html>
+
