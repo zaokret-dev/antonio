@@ -282,6 +282,10 @@
   function moveSlide(dir) { goTo(current + dir); resetTimer(); }
   function resetTimer() { clearInterval(timer); timer = setInterval(() => goTo(current + 1), 5000); }
   resetTimer();
+
+  function toggleMenu() {
+    document.querySelector('.nav-links').classList.toggle('open');
+  }
 </script>
 </body>
 </html>
