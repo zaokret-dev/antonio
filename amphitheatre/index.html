@@ -97,11 +97,11 @@
   .slider-section { position: relative; overflow: hidden; width: 100%; height: 610px; background: #111; }
   @media (max-width: 768px) { .slider-section { height: 335px; } }
   @media (max-width: 480px) { .slider-section { height: 220px; } }
-  .slides { display: flex; width: 100%; height: 100%; transition: transform 0.6s ease; }
+  .slides { display: flex; height: 100%; transition: transform 0.6s ease; }
   
   
 
-  .slide { position: relative; min-width: 100%; height: 100%; flex-shrink: 0; overflow: hidden; }
+  .slide { position: relative; height: 100%; flex-shrink: 0; overflow: hidden; }
   .slide-bg { position: absolute; inset: -20px; background-size: cover; background-position: center; filter: blur(18px) brightness(0.5) saturate(0.7); transform: scale(1.05); z-index: 0; }
   .slide img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; object-position: center; display: block; }
   .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.45); color: #fff; border: none; cursor: pointer; font-size: 22px; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; transition: background 0.2s; }
@@ -247,8 +247,23 @@
 <script>
   const slides = document.getElementById('slides');
   const dotsContainer = document.getElementById('dots');
-  const total = slides.children.length;
+  const sliderSection = document.querySelector('.slider-section');
+  const slideEls = Array.from(slides.children);
+  const total = slideEls.length;
   let current = 0, timer;
+
+  function setSlideWidths() {
+    const w = sliderSection.clientWidth;
+    slides.style.width = (w * total) + 'px';
+    slideEls.forEach(s => {
+      s.style.width = w + 'px';
+      s.style.minWidth = w + 'px';
+    });
+    slides.style.transform = `translateX(-${current * w}px)`;
+  }
+
+  window.addEventListener('resize', setSlideWidths);
+  setSlideWidths();
 
   for (let i = 0; i < total; i++) {
     const d = document.createElement('button');
@@ -260,16 +275,13 @@
 
   function goTo(n) {
     current = (n + total) % total;
-    slides.style.transform = `translateX(-${current * 100}%)`;
+    const w = sliderSection.clientWidth;
+    slides.style.transform = `translateX(-${current * w}px)`;
     document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
   }
   function moveSlide(dir) { goTo(current + dir); resetTimer(); }
   function resetTimer() { clearInterval(timer); timer = setInterval(() => goTo(current + 1), 5000); }
   resetTimer();
-
-  function toggleMenu() {
-    document.querySelector('.nav-links').classList.toggle('open');
-  }
 </script>
 </body>
 </html>
