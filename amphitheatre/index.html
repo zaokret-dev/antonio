@@ -71,9 +71,19 @@
   }
 
   @media (max-width: 768px) {
-    .nav-links { display: none; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: rgba(0,0,0,0.95); padding: 20px; gap: 16px; }
-    .nav-links.open { display: flex; }
+    .nav-links { display: none; }
     .nav-hamburger { display: block; background: none; border: none; color: #fff; font-size: 26px; cursor: pointer; }
+    nav { position: fixed; flex-wrap: nowrap; }
+  }
+  nav.nav-mobile-open .nav-links {
+    display: flex !important;
+    flex-direction: column;
+    position: absolute;
+    top: 56px; left: 0; right: 0;
+    background: rgba(0,0,0,0.95);
+    padding: 20px 32px;
+    gap: 16px;
+    z-index: 999;
   }
 
 
@@ -284,7 +294,7 @@
   resetTimer();
 
   function toggleMenu() {
-    document.querySelector('.nav-links').classList.toggle('open');
+    document.querySelector('nav').classList.toggle('nav-mobile-open');
   }
 </script>
 </body>
