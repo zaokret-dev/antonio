@@ -53,12 +53,22 @@
   nav.nav-mobile-open .nav-links {
     display: flex !important;
     flex-direction: column;
+    align-items: flex-start;
     position: absolute;
     top: 56px; left: 0; right: 0;
     background: rgba(0,0,0,0.95);
     padding: 20px 32px;
     gap: 16px;
     z-index: 999;
+  }
+  nav.nav-mobile-open .nav-links li {
+    width: 100%;
+    text-align: left;
+  }
+  nav.nav-mobile-open .nav-links a {
+    display: block;
+    width: 100%;
+    text-align: left;
   }
 
   /* HERO */
