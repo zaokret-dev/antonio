@@ -256,9 +256,6 @@
     margin-bottom: 24px;
     border-radius: 2px;
   }
-  @media (max-height: 500px) and (orientation: landscape) {
-    .tour-card img { max-height: 220px; }
-  }
   .tour-card p, .tour-card div {
     font-size: 15px;
     line-height: 1.85;
@@ -751,6 +748,10 @@
   .tour-detail-body h2 { font-size: 22px; }
   nav { padding: 0 16px; height: 60px; }
   .nav-links { display: none; }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .tour-card img { max-height: 200px !important; }
 }
 </style>
 </head>
