@@ -575,6 +575,11 @@
 /* PAGE HERO */
 .page-hero {
   padding: 160px 48px 100px;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   position: relative;
   overflow: hidden;
   text-align: center;
@@ -752,6 +757,9 @@
 
 @media (max-height: 500px) and (orientation: landscape) {
   .tour-card img { max-height: 200px !important; }
+  .page-hero { padding: 90px 24px 40px !important; min-height: auto !important; }
+  .page-hero h1 { font-size: 28px !important; }
+  .page-hero p { font-size: 14px !important; }
 }
 </style>
 </head>
