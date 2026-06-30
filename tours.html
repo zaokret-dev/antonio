@@ -664,7 +664,7 @@
 .tour-detail.reverse > * { direction: ltr; }
 .tour-detail img {
   width: 100%;
-  height: 420px;
+  max-height: 420px;
   object-fit: cover;
   display: block;
 }
@@ -741,14 +741,14 @@
   .tours-page { padding: 60px 24px; }
   .tour-detail { grid-template-columns: 1fr; }
   .tour-detail.reverse { direction: ltr; }
-  .tour-detail img { height: 300px; }
+  .tour-detail img { max-height: 300px; }
   .tour-detail-body { padding: 32px 28px; }
   nav { padding: 0 24px; }
 }
 @media (max-width: 600px) {
   .page-hero { padding: 120px 20px 70px; }
   .tours-page { padding: 50px 16px; }
-  .tour-detail img { height: 240px; }
+  .tour-detail img { max-height: 240px; }
   .tour-detail-body { padding: 24px 20px; }
   .tour-detail-body h2 { font-size: 22px; }
   nav { padding: 0 16px; height: 60px; }
