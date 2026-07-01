@@ -17,10 +17,15 @@
     --bg-light: #f7f7f7;
   }
 
+  html, body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
   body {
     font-family: 'Open Sans', sans-serif;
     color: #333;
-    overflow-x: hidden;
   }
 
   /* NAV */
@@ -373,7 +378,6 @@
   @media (max-width: 600px) {
     nav { padding: 0 16px; height: 60px; }
     .nav-logo { font-size: 16px; }
-    .nav-links { display: none; }
 
     .hero { padding: 100px 20px 60px; }
     .hero h1 { font-size: 36px; letter-spacing: 0; }
@@ -548,26 +552,69 @@
     font-size: 26px;
     cursor: pointer;
     padding: 4px 8px;
+    line-height: 1;
+    z-index: 1200;
+    position: relative;
   }
-  .nav-mobile-open .nav-links {
-    display: flex !important;
-    flex-direction: column;
-    position: absolute;
-    top: 70px; left: 0; right: 0;
-    background: rgba(0,0,0,0.95);
-    padding: 20px 32px;
-    gap: 16px;
+
+  /* Dark overlay behind the slide-in drawer */
+  .nav-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
     z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
   }
+  .nav-drawer-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
   @media (max-width: 1000px) {
     nav { flex-wrap: wrap; padding: 0 20px; }
     .nav-links { gap: 16px; }
     .nav-links a { font-size: 11px; letter-spacing: 1px; }
   }
+
+  /* MOBILE: hamburger + left slide-in drawer */
   @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .nav-hamburger { display: block; }
     nav { position: fixed; flex-wrap: nowrap; }
+    .nav-hamburger { display: block; }
+
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 78%;
+      max-width: 300px;
+      background: rgba(10,10,10,0.97);
+      backdrop-filter: blur(10px);
+      padding: 100px 32px 40px;
+      gap: 22px;
+      z-index: 1100;
+      transform: translateX(-100%);
+      transition: transform 0.35s ease;
+      overflow-y: auto;
+    }
+    .nav-mobile-open .nav-links {
+      transform: translateX(0);
+    }
+    .nav-links a { font-size: 14px; letter-spacing: 1.5px; }
+  }
+
+  /* Portrait phones: wider drawer for comfortable reading */
+  @media (max-width: 768px) and (orientation: portrait) {
+    .nav-links { width: 82%; max-width: 320px; }
+  }
+  /* Landscape phones: narrower drawer */
+  @media (max-width: 768px) and (orientation: landscape) {
+    .nav-links { width: 55%; max-width: 340px; }
   }
 
 </style>
@@ -579,7 +626,7 @@
   <a href="index.html" class="nav-logo">Excursion Antonio</a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="index.html#about">About Us</a></li>
+    <li><a href="about.html">About Us</a></li>
     <li><a href="tours.html">Tours</a></li>
     <li><a href="boat.html">Boat</a></li>
     <li><a href="blog.html">Blog</a></li>
@@ -590,6 +637,7 @@
   </ul>
   <div class="nav-hamburger" onclick="toggleMenu()">&#9776;</div>
 </nav>
+<div class="nav-drawer-overlay" onclick="toggleMenu()"></div>
 
 <!-- HERO -->
 <section class="hero">
@@ -747,8 +795,32 @@
 
 <script>
 function toggleMenu() {
-  document.querySelector('nav').classList.toggle('nav-mobile-open');
+  var nav = document.querySelector('nav');
+  var overlay = document.querySelector('.nav-drawer-overlay');
+  var hamburger = document.querySelector('.nav-hamburger');
+  var isOpen = nav.classList.toggle('nav-mobile-open');
+  overlay.classList.toggle('active', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+  hamburger.innerHTML = isOpen ? '&times;' : '&#9776;';
 }
+
+// Close the drawer automatically when a nav link is tapped
+document.querySelectorAll('.nav-links a').forEach(function (link) {
+  link.addEventListener('click', function () {
+    var nav = document.querySelector('nav');
+    if (nav.classList.contains('nav-mobile-open')) {
+      toggleMenu();
+    }
+  });
+});
+
+// Close the drawer on ESC key for accessibility
+document.addEventListener('keydown', function (e) {
+  var nav = document.querySelector('nav');
+  if (e.key === 'Escape' && nav.classList.contains('nav-mobile-open')) {
+    toggleMenu();
+  }
+});
 </script>
 
 </body>
